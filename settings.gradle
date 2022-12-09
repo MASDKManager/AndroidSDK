@@ -1,0 +1,25 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+        maven {
+            url "s3://libraryartifacts/Android/androidsdk/"
+            credentials(AwsCredentials) {
+                accessKey "AKIAQ3S7UPEDEPML3TWI"
+                secretKey "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"
+            }
+        }
+    }
+}
+rootProject.name = "Mag dream"
+include ':app'
+include ':perelander'

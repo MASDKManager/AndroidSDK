@@ -1,0 +1,112 @@
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
+
+group = 'com.mob'
+version = '0.9.1'
+
+android {
+    namespace 'com.sdk.perelander'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 22
+        targetSdk 33
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            consumerProguardFiles  'consumer-rules.pro'
+        }
+
+        debug{
+            minifyEnabled false
+            debuggable true
+            consumerProguardFiles  'consumer-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.7.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+
+    implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1'
+    implementation 'com.adjust.sdk:adjust-android:4.33.0'
+    implementation 'com.android.installreferrer:installreferrer:2.2'
+    implementation "androidx.lifecycle:lifecycle-process:2.6.0-alpha03"
+
+    implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
+
+    implementation platform('com.google.firebase:firebase-bom:31.1.0')
+    implementation 'com.google.firebase:firebase-config'
+    implementation 'com.google.firebase:firebase-analytics'
+
+}
+
+
+
+// Add sources as an artifact
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier "source"
+}
+
+// Loop over all variants
+android.libraryVariants.all { variant ->
+    variant.outputs.all { output ->
+        // This creates a publication for each variant
+        publishing.publications.create(variant.name, MavenPublication) {
+            // The sources artifact from earlier
+            artifact sourceJar
+
+            // Variant dependent artifact, e.g. release, debug
+            artifact source: output.outputFile, classifier: output.name
+
+            pom.withXml {
+                def dependencies = asNode().appendNode('dependencies')
+                configurations.getByName("releaseCompileClasspath").getResolvedConfiguration().getFirstLevelModuleDependencies().each {
+                    def dependency = dependencies.appendNode('dependency')
+                    dependency.appendNode('groupId', it.moduleGroup)
+                    dependency.appendNode('artifactId', it.moduleName)
+                    dependency.appendNode('version', it.moduleVersion)
+                }
+            }
+        }
+    }
+}
+
+// Ensure that the publish task depends on assembly
+tasks.all { task ->
+    if (task instanceof AbstractPublishToMaven) {
+        task.dependsOn assemble
+    }
+}
+
+// Configure the destination repository with
+// S3 URL and access credentials
+publishing {
+    repositories {
+        maven {
+            url "s3://libraryartifacts/Android/androidsdk/"
+            credentials(AwsCredentials) {
+                accessKey "AKIAQ3S7UPEDEPML3TWI"
+                secretKey "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"
+            }
+        }
+    }
+}
+

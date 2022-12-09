@@ -1,0 +1,233 @@
+{
+  "project_info": {
+    "project_number": "545756253288",
+    "firebase_url": "https://myprojects-e4769-default-rtdb.firebaseio.com",
+    "project_id": "myprojects-e4769",
+    "storage_bucket": "myprojects-e4769.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545756253288:android:a6d998c17763974a82ffdd",
+        "android_client_info": {
+          "package_name": "com.example.facebook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "545756253288-0dhfb2hhgn1dj03s6de3a5s96ghu64jm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGzotG070UT5KlXIsZIXfF0KsZRB-aeG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "545756253288-0dhfb2hhgn1dj03s6de3a5s96ghu64jm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "545756253288-52i3v6dvp7ppllqq8mb53ql0l9f9g2vt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mag.dream.ios",
+                "app_store_id": "1641068123"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545756253288:android:30100c60de39f65382ffdd",
+        "android_client_info": {
+          "package_name": "com.mag.dream"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "545756253288-0dhfb2hhgn1dj03s6de3a5s96ghu64jm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGzotG070UT5KlXIsZIXfF0KsZRB-aeG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "545756253288-0dhfb2hhgn1dj03s6de3a5s96ghu64jm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "545756253288-52i3v6dvp7ppllqq8mb53ql0l9f9g2vt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mag.dream.ios",
+                "app_store_id": "1641068123"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545756253288:android:b681e4349b7ab48782ffdd",
+        "android_client_info": {
+          "package_name": "com.mag.wakeup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "545756253288-0dhfb2hhgn1dj03s6de3a5s96ghu64jm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGzotG070UT5KlXIsZIXfF0KsZRB-aeG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "545756253288-0dhfb2hhgn1dj03s6de3a5s96ghu64jm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "545756253288-52i3v6dvp7ppllqq8mb53ql0l9f9g2vt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mag.dream.ios",
+                "app_store_id": "1641068123"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545756253288:android:38e8a485e2e06c2d82ffdd",
+        "android_client_info": {
+          "package_name": "com.recover.myphotos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "545756253288-0dhfb2hhgn1dj03s6de3a5s96ghu64jm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGzotG070UT5KlXIsZIXfF0KsZRB-aeG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "545756253288-0dhfb2hhgn1dj03s6de3a5s96ghu64jm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "545756253288-52i3v6dvp7ppllqq8mb53ql0l9f9g2vt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mag.dream.ios",
+                "app_store_id": "1641068123"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545756253288:android:0b608c9eaa24a23882ffdd",
+        "android_client_info": {
+          "package_name": "com.temptrans.translatorpro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "545756253288-0dhfb2hhgn1dj03s6de3a5s96ghu64jm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGzotG070UT5KlXIsZIXfF0KsZRB-aeG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "545756253288-0dhfb2hhgn1dj03s6de3a5s96ghu64jm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "545756253288-52i3v6dvp7ppllqq8mb53ql0l9f9g2vt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mag.dream.ios",
+                "app_store_id": "1641068123"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545756253288:android:8bd82efba165ee8e82ffdd",
+        "android_client_info": {
+          "package_name": "com.test.referrer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "545756253288-0dhfb2hhgn1dj03s6de3a5s96ghu64jm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGzotG070UT5KlXIsZIXfF0KsZRB-aeG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "545756253288-0dhfb2hhgn1dj03s6de3a5s96ghu64jm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "545756253288-52i3v6dvp7ppllqq8mb53ql0l9f9g2vt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mag.dream.ios",
+                "app_store_id": "1641068123"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
