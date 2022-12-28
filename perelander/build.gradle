@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'com.mob'
-version = '0.9.1'
+version = '0.9.9'
 
 android {
     namespace 'com.sdk.perelander'

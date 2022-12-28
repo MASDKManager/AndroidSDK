@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
@@ -25,7 +27,6 @@ public class AdsActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
 
     @Override
@@ -61,11 +62,21 @@ public class AdsActivity extends Activity {
 
                 if (url.startsWith("tel") || url.startsWith("sms")) {
                     try {
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse(url));
-                        startActivity(intent);
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.e("AdjustSDK", "postDelayed 4 " );
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                intent.setData(Uri.parse(url));
+                                startActivity(intent);
+                            }
+                        }, 700);
+
                         mobInstance.closeWActivity();
                         finish();
+
                     } catch (Exception ignored) {
                         mobInstance.closeWActivity();
                         finish();
@@ -87,12 +98,16 @@ public class AdsActivity extends Activity {
     }
 
     private void manageInternetCoon() {
+
+        Log.v("AdjustSDK", "No Internet Connection!"  );
+
         linearLayout.setVisibility(View.VISIBLE);
         Button retryBtn = findViewById(R.id.button_retry);
         retryBtn.setOnClickListener(view -> {
             linearLayout.setVisibility(View.GONE);
             callWebview();
         });
+
     }
 
     private void callWebview() {
@@ -100,6 +115,7 @@ public class AdsActivity extends Activity {
             MobInstance mobInstance = Mob.getDefaultInstance();
 
             String end_url = mobInstance.getMainU();
+            Log.e("AdjustSDK", "end_url: " + end_url );
             webView.loadUrl(end_url);
         } else {
             manageInternetCoon();

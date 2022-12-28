@@ -2,6 +2,7 @@ package com.sdk.perelander;
 
 import static com.sdk.perelander.Utils.*;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
@@ -13,6 +14,7 @@ import com.adjust.sdk.LogLevel;
 import com.adjust.sdk.OnAttributionChangedListener;
 import com.adjust.sdk.OnDeviceIdsRead;
 import java.net.URLEncoder;
+import java.util.Objects;
 
 public class MobInstance {
 
@@ -20,6 +22,10 @@ public class MobInstance {
 
     public void onCreate(MobConfig config) {
         onPrivateCreate(config);
+    }
+
+    public void setOnResumeActivity(Activity activity) {
+        mobConfig.setOnResumeActivity(activity);
     }
 
     private void onPrivateCreate(MobConfig mConfig) {
@@ -37,7 +43,7 @@ public class MobInstance {
                 saveValue(mobConfig.context, mobConfig.campaign, attribution.campaign);
                 saveValue(mobConfig.context, mobConfig.attribution, attribution.toString());
 
-                if (isValidGUID(attribution.campaign)) {
+                if (isValidGUID(attribution.campaign) || isValidNaming(attribution.campaign)) {
                     openWActivity(Utils.Action.Campaign);
                 }
 
@@ -85,6 +91,29 @@ public class MobInstance {
     }
 
     private void openActivity(Integer action) {
+        try {
+            if((mobConfig.sActivity != mobConfig.rActivity) || (mobConfig.sActivity == null || mobConfig.rActivity == null)) {
+
+                if (mobConfig.rActivity == null) {
+                    Log.v("AdjustSDK", "rActivity is null!");
+                } else {
+                    Log.v("AdjustSDK", "rActivity is:" + mobConfig.rActivity.getClass().getSimpleName());
+
+                }
+
+                if (mobConfig.sActivity == null) {
+                    Log.v("AdjustSDK", "sActivity is null!");
+                } else {
+                    Log.v("AdjustSDK", "sActivity is:" + mobConfig.sActivity.getClass().getSimpleName());
+                }
+
+                Log.v("AdjustSDK", "Exit on different activity!");
+                return;
+            }
+        }catch (NullPointerException e) {
+            return;
+        }
+
         Integer currentAction = Utils.getIntValue(mobConfig.context, mobConfig.action);
 
         if (action == Utils.Action.Deeplink) {
@@ -123,22 +152,25 @@ public class MobInstance {
 
                 Utils.saveIntValue(mobConfig.context, mobConfig.action, Utils.Action.Cancel);
 
-                Handler handler = new Handler(mobConfig.context.getMainLooper());
+                if(!Objects.equals(mobConfig.appUrl, "") && mobConfig.appUrl != null) {
+                    Handler handler = new Handler(mobConfig.context.getMainLooper());
 
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
 
-                        Intent intent = new Intent(mobConfig.context, AdsActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Intent intent = new Intent(mobConfig.context, AdsActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            Log.v("AdjustSDK", "screen opened");
+                            mobConfig.context.startActivity(intent);
+                        }
+                    };
 
-                        mobConfig.context.startActivity(intent);
-                    }
-                };
-
-                handler.post(runnable);
-
-                Log.v("AdjustSDK", "screen opened");
+                    handler.post(runnable);
+                }else {
+                    Log.v("AdjustSDK", "empty remote config");
+                    closeWActivity();
+                }
 
             }
         }

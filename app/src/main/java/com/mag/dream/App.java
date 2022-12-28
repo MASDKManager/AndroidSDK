@@ -3,6 +3,7 @@ package com.mag.dream;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +19,9 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
+        Log.v("AdjustSDK", "MobConfig starts" );
         config = new MobConfig(this, "wjuc18qnii9s" );
+
         Mob.onCreate(config);
         registerActivityLifecycleCallbacks(new MobLifecycleCallbacks());
 
@@ -28,7 +31,7 @@ public class App extends Application {
 
         @Override
         public void onActivityResumed(Activity activity) {
-            Mob.onResume();
+            Mob.onResume(activity);
         }
 
         @Override

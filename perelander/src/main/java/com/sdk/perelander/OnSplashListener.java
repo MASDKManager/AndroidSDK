@@ -4,3 +4,4 @@ package com.sdk.perelander;
 public interface OnSplashListener {
     void OnSplashChanged();
 }
+

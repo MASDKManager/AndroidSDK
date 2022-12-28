@@ -13,18 +13,20 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Utils {
 
-    @IntDef({Action.Deeplink, Action.Campaign, Action.Cancel, Action.Notification})
+    @IntDef({Action.Deeplink, Action.Campaign, Action.Cancel, Action.Notification, Action.SecondLaunch, Action.Pending})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Action {
         int Deeplink = 1;
-
         int Campaign = 2;
         int Cancel = 3;
         int Notification = 4;
+        int SecondLaunch = 5;
+        int Pending = 6;
     }
 
     public static boolean isValidGUID(String str) {
@@ -40,6 +42,25 @@ public class Utils {
         }
 
         return Pattern.compile("^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$").matcher(str).matches();
+    }
+
+    public static boolean isValidNaming(String str) {
+        return isVNaming(str);
+    }
+
+    private static boolean isVNaming(String str) {
+        final String regex = "(?<=\\[\\[)(.*)(?=\\]\\])";
+
+        final Pattern pattern = Pattern.compile(regex, Pattern.DOTALL);
+        final Matcher matcher = pattern.matcher(str);
+
+        if (matcher.find()) {
+            str = "[[" + matcher.group(1) + "]]";
+        }else{
+            return false;
+        }
+
+        return Pattern.compile("\\[\\[(?<key>[^_]+)_?(?<sub1>[^_]+)?_?(?<sub2>[^_]+)?_?(?<sub3>[^_]+)?_?(?<sub4>[^_]+)?_?(?<sub5>[^_]+)?\\]\\]").matcher(str).matches();
     }
 
     public static void saveValue(Context context, String title, String value) {
@@ -69,7 +90,7 @@ public class Utils {
 
     public static void removeValue(Context context, String title) {
         SharedPreferences sharedPref = context.getSharedPreferences( md5(context.getPackageName()), MODE_PRIVATE);
-        sharedPref.edit().remove(title).commit();
+        sharedPref.edit().remove(title).apply();
     }
 
     public static boolean isConnected(Context context) {

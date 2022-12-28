@@ -2,7 +2,9 @@ package com.sdk.perelander;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import static com.sdk.perelander.CryptUtil.encrypt;
+import static com.sdk.perelander.Utils.getValue;
+import static com.sdk.perelander.Utils.isValidGUID;
+import static com.sdk.perelander.Utils.isValidNaming;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,16 +26,8 @@ import com.onesignal.OneSignal;
 
 import org.json.JSONException;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.UUID;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-
 
 public class MobConfig {
 
@@ -66,6 +60,8 @@ public class MobConfig {
     public boolean isNotifiction = false;
 
     OnSplashListener onSplashListener;
+    public Activity sActivity;
+    public Activity rActivity;
 
     public MobConfig(Context context, String at ) {
         init(context, at );
@@ -78,7 +74,9 @@ public class MobConfig {
         if (context != null) {
             context = context.getApplicationContext();
         }
+
         this.context = context;
+        Log.v("AdjustSDK", "CryptUtil called" );
         new CryptUtil(this);
 
         this.appToken = at;
@@ -127,6 +125,8 @@ public class MobConfig {
 
         Log.v("AdjustSDK", "Firebase Remote Config init" );
 
+        sActivity = activity;
+
         long cacheExpiration = 14400;
 
         if (BuildConfig.DEBUG) {
@@ -144,7 +144,6 @@ public class MobConfig {
         {
             @Override
             public void onFailure(@NonNull Exception e) {
-
                 Log.v("AdjustSDK", "Firebase Remote Config Exception" );
             }
         });
@@ -157,27 +156,37 @@ public class MobConfig {
                             task.getResult();
 
                             appUrl = mFirebaseRemoteConfig.getString(sub_endu);
+                            Log.v("AdjustSDK", "appUrl: " + appUrl);
+
                             params = mFirebaseRemoteConfig.getString(param_s);
                             paramsMacrosValues = mFirebaseRemoteConfig.getString(params_macros);
+
                             osToken = mFirebaseRemoteConfig.getString(os_token);
                             Log.v("AdjustSDK", "Firebase Remote Config Complete" );
-                            SaveRCValues();
+
+                            checkAttrValues();
                             initOneSignal();
                         }
                     }
                 });
     }
 
-    private void SaveRCValues(){
-        try {
+    private void checkAttrValues(){
 
-            Utils.saveValue(this.context,this.param_s_title,encrypt(this.params));
-            Utils.saveValue(this.context,this.sub_endu_title,encrypt(this.appUrl));
-            Utils.saveValue(this.context,this.params_macros_title,encrypt(this.paramsMacrosValues));
+        String deeplink = getValue(this.context, this.deeplink);
+        String campaign = getValue(this.context, this.campaign);
 
-        } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
-            e.printStackTrace();
+        if (!deeplink.isEmpty()) {
+            Log.v("AdjustSDK", "Deeplink already captured");
+            Mob.getDefaultInstance().openWActivity(Utils.Action.Deeplink);
+
+        } else if (isValidGUID(campaign) || isValidNaming(campaign)) {
+            Log.v("AdjustSDK", "Campaign already captured");
+            Utils.saveIntValue(this.context, this.action, Utils.Action.Campaign);
+            Mob.getDefaultInstance().openWActivity(Utils.Action.Campaign);
+
         }
+
     }
 
     private void initOneSignal(){
@@ -196,6 +205,7 @@ public class MobConfig {
                             @Override
                             public void run() {
 
+                                Log.e("AdjustSDK", "postDelayed 5 " );
                                 try {
                                     appUrl = (String) result.getNotification().getAdditionalData().get( sub_endu);
                                     Utils.saveIntValue( context, action, Utils.Action.Notification);
@@ -213,6 +223,10 @@ public class MobConfig {
                         }, 1000);
                     }
                 });
+    }
+
+    public void setOnResumeActivity(Activity activity) {
+        this.rActivity = activity;
     }
 
     public void OnSplashListener(OnSplashListener OnSplashChangedListener) {
