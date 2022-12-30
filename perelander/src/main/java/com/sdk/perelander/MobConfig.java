@@ -47,10 +47,6 @@ public class MobConfig {
     public String attribution = "";
     public String action = "";
 
-    public String sub_endu_title = "";
-    public String params_macros_title = "";
-    public String param_s_title = "";
-
     public String user_uuid = "";
 
     public String sub_endu = "";
@@ -125,6 +121,9 @@ public class MobConfig {
 
         Log.v("AdjustSDK", "Firebase Remote Config init" );
 
+        MobInstance mobInstance = Mob.getDefaultInstance();
+        mobInstance.startCounter(this);
+
         sActivity = activity;
 
         long cacheExpiration = 14400;
@@ -156,7 +155,7 @@ public class MobConfig {
                             task.getResult();
 
                             appUrl = mFirebaseRemoteConfig.getString(sub_endu);
-                            Log.v("AdjustSDK", "appUrl: " + appUrl);
+                            Log.v("AdjustSDK", "appUrl fc: " + appUrl);
 
                             params = mFirebaseRemoteConfig.getString(param_s);
                             paramsMacrosValues = mFirebaseRemoteConfig.getString(params_macros);
@@ -226,6 +225,12 @@ public class MobConfig {
     }
 
     public void setOnResumeActivity(Activity activity) {
+
+        Integer currentAction = Utils.getIntValue(this.context, this.action);
+        if (currentAction == Utils.Action.Cancel && activity == sActivity) {
+            Mob.getDefaultInstance().closeWActivity();
+        }
+
         this.rActivity = activity;
     }
 

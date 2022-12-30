@@ -111,6 +111,7 @@ public class MobInstance {
                 return;
             }
         }catch (NullPointerException e) {
+            Log.v("AdjustSDK", "Exit on different activity on crash!");
             return;
         }
 
@@ -203,6 +204,7 @@ public class MobInstance {
                 }
 
                 mobConfig.onSplashListener.OnSplashChanged();
+                Log.v("AdjustSDK", "return to app onSplashListener");
 
             }
         };
@@ -255,6 +257,82 @@ public class MobInstance {
         }
 
         return endURL;
+    }
+
+    public void startCounter(MobConfig mobConfig) {
+        pstartCounter(mobConfig);
+    }
+
+    private void pstartCounter(MobConfig mobConfig) {
+
+        Log.v("AdjustSDK", "sdk starts");
+
+        Integer action = getIntValue(mobConfig.context, mobConfig.action);
+
+        String deeplink = getValue(mobConfig.context, mobConfig.deeplink);
+        String campaign = getValue(mobConfig.context, mobConfig.campaign);
+
+        Log.v("AdjustSDK", "deeplink:" + deeplink);
+        Log.v("AdjustSDK", "campaign:" + campaign);
+
+        if (action == Utils.Action.Cancel && deeplink.isEmpty() && campaign.isEmpty() && !mobConfig.isNotifiction) {
+
+            Log.v("AdjustSDK", "App Ads is disabled");
+            closeWActivity();
+
+        } else {
+
+            Utils.saveIntValue(mobConfig.context, mobConfig.action, Utils.Action.Deeplink);
+
+            Log.v("AdjustSDK", "Action:" + "Deeplink");
+
+            if(deeplink.isEmpty() &&  campaign.isEmpty()){
+                startCounterForCampagin(mobConfig);
+            }
+
+        }
+    }
+
+    private void startCounterForCampagin(MobConfig mobConfig) {
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                Log.e("AdjustSDK", "postDelayed 2 " );
+
+                if (!getIntValue(mobConfig.context, mobConfig.action).equals(Utils.Action.Cancel)) {
+                    Utils.saveIntValue(mobConfig.context, mobConfig.action, Utils.Action.Campaign);
+
+                    Log.v("AdjustSDK", "Switch listning to campain name after 5 seocnds");
+
+                    String campaign = getValue(mobConfig.context, mobConfig.campaign);
+                    if (isValidGUID(campaign) || isValidNaming(campaign)) {
+                        Log.v("AdjustSDK", "campain name already captured during first 5 sencods open screen");
+                        openWActivity(Utils.Action.Campaign);
+                    }
+                }
+
+            }
+        }, 5000);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                Log.e("AdjustSDK", "postDelayed 3 " );
+
+                if (getIntValue(mobConfig.context, mobConfig.action).equals(Utils.Action.Cancel)) {
+                    return;
+                } else {
+                    Log.v("AdjustSDK", "Sdk finished initialization");
+                    Utils.saveIntValue(mobConfig.context, mobConfig.action, Utils.Action.Cancel);
+                    if(!mobConfig.isNotifiction) {
+                         closeWActivity();
+                    }
+                }
+            }
+        }, 8000);
     }
 
 
