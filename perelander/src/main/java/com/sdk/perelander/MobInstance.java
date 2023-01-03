@@ -221,7 +221,7 @@ public class MobInstance {
     private String getMU(){
 
         if(this.mobConfig.isNotifiction){
-            return this.mobConfig.appUrl;
+            //return this.mobConfig.appUrl;
         }
 
         String endURL = this.mobConfig.appUrl;
@@ -246,6 +246,12 @@ public class MobInstance {
 
             if (endURL != null && !endURL.equals("") && !endURL.startsWith("http")) {
                 endURL = "https://" + endURL;
+            }
+
+            if (endURL.contains("?")) {
+                endURL = endURL + "&" + str;
+            } else {
+                endURL = endURL + "?" + str;
             }
 
             endURL = endURL + "?" + str;

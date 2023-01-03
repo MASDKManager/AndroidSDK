@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID"  />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
 
-    <application >
-
+    <application>
         <activity
-            android:name=".AdsActivity"
-            android:launchMode="singleTop"
-            android:exported="false"
+            android:name=".NotificationActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Material.DialogWhenLarge.NoActionBar"
-            android:parentActivityName=".AdsActivity" />
-
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".AdsActivity"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:parentActivityName=".AdsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Material.DialogWhenLarge.NoActionBar" />
     </application>
 
 </manifest>

@@ -212,7 +212,7 @@ public class MobConfig {
 
                                     Log.v("AdjustSDK", "Notification received with url: " + appUrl);
 
-                                    Intent intent = new Intent( context, AdsActivity.class);
+                                    Intent intent = new Intent( context, NotificationActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     context.startActivity(intent);
                                 } catch (JSONException e) {

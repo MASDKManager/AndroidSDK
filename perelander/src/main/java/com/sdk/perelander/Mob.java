@@ -1,12 +1,8 @@
 package com.sdk.perelander;
 
-import static com.sdk.perelander.Utils.*;
-import static com.sdk.perelander.Utils.isValidGUID;
 
 import android.app.Activity;
-import android.os.Handler;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleEventObserver;
