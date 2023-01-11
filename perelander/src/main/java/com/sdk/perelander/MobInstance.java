@@ -32,9 +32,9 @@ public class MobInstance {
 
         this.setMobConfig(mConfig);
 
-        String environment = AdjustConfig.ENVIRONMENT_SANDBOX;
+        String environment = BuildConfig.DEBUG ? AdjustConfig.ENVIRONMENT_SANDBOX : AdjustConfig.ENVIRONMENT_PRODUCTION  ;
         AdjustConfig config = new AdjustConfig(mobConfig.context, mobConfig.appToken, environment);
-        config.setLogLevel(LogLevel.VERBOSE);
+      //  config.setLogLevel(LogLevel.VERBOSE);
         config.setSendInBackground(true);
 
         config.setOnAttributionChangedListener(new OnAttributionChangedListener() {
@@ -71,6 +71,7 @@ public class MobInstance {
         });
 
         Adjust.addSessionCallbackParameter(mobConfig.user_uuid, mobConfig.userUUID);
+        Adjust.addSessionCallbackParameter("VERSION", BuildConfig.VERSION);
 
     }
 
@@ -253,8 +254,6 @@ public class MobInstance {
             } else {
                 endURL = endURL + "?" + str;
             }
-
-            endURL = endURL + "?" + str;
 
             Log.v("AdjustSDK", "screen URL: " + endURL);
 

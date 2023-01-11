@@ -1,10 +1,7 @@
 package com.sdk.perelander;
 
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebSettings;
@@ -30,7 +27,6 @@ public class NotificationActivity extends Activity {
 
         callWebview();
     }
-
 
     private void callWebview() {
         if (Utils.isConnected(this)) {
